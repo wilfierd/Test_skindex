@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    ports:
+      - '5431:5432'
+    environment:
+      POSTGRES_USER: nguyenhieu
+      POSTGRES_PASSWORD: nguyenhieu26
+      POSTGRES_DB: blog_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
