@@ -40,9 +40,10 @@ export class PostsController {
     @ApiOperation({ summary: 'Update a post' })
     @ApiResponse({ status: 200, description: 'The post has been successfully updated.' })
     @ApiResponse({ status: 401, description: 'Unauthorized.' })
+    @ApiResponse({ status: 403, description: 'Forbidden. You are not the author.' })
     @ApiResponse({ status: 404, description: 'Post not found.' })
-    update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-        return this.postsService.update(+id, updatePostDto);
+    update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto, @Request() req: any) {
+        return this.postsService.update(+id, updatePostDto, req.user.userId);
     }
 
     @Delete(':id')
@@ -51,8 +52,9 @@ export class PostsController {
     @ApiOperation({ summary: 'Delete a post' })
     @ApiResponse({ status: 200, description: 'The post has been successfully deleted.' })
     @ApiResponse({ status: 401, description: 'Unauthorized.' })
+    @ApiResponse({ status: 403, description: 'Forbidden. You are not the author.' })
     @ApiResponse({ status: 404, description: 'Post not found.' })
-    remove(@Param('id') id: string) {
-        return this.postsService.remove(+id);
+    remove(@Param('id') id: string, @Request() req: any) {
+        return this.postsService.remove(+id, req.user.userId);
     }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreatePostDto, UpdatePostDto } from './dto/post.dto';
 
@@ -23,20 +23,36 @@ export class PostsService {
     }
 
     async findOne(id: number) {
-        return this.prisma.post.findUnique({
+        const post = await this.prisma.post.findUnique({
             where: { id },
             include: { author: true },
         });
+        if (!post) {
+            throw new NotFoundException(`Post with ID ${id} not found`);
+        }
+        return post;
     }
 
-    async update(id: number, updatePostDto: UpdatePostDto) {
+    async update(id: number, updatePostDto: UpdatePostDto, userId: number) {
+        const post = await this.findOne(id);
+
+        if (post.authorId !== userId) {
+            throw new ForbiddenException('You are not allowed to edit this post');
+        }
+
         return this.prisma.post.update({
             where: { id },
             data: updatePostDto,
         });
     }
 
-    async remove(id: number) {
+    async remove(id: number, userId: number) {
+        const post = await this.findOne(id);
+
+        if (post.authorId !== userId) {
+            throw new ForbiddenException('You are not allowed to delete this post');
+        }
+
         return this.prisma.post.delete({
             where: { id },
         });
