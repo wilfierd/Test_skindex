@@ -23,6 +23,7 @@
 4. **Run Migrations**
    ```bash
    npx prisma migrate dev
+   npx prisma generate
    ```
 
 5. **Start Application**
