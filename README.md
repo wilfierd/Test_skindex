@@ -1,5 +1,11 @@
 # Simple Blog API
 
+## Completed Features
+- JWT Authentication (Register / Login)
+- CRUD for Posts and Comments
+- Role-based Authorization (USER / ADMIN)
+- Swagger API Documentation and testing
+
 ## Requirements
 - Node.js
 - Docker
@@ -31,5 +37,7 @@
    npm run start:dev
    ```
 
-## API Documentation
+## API Documentation & Testing
 Access Swagger UI at: [http://localhost:3000/api](http://localhost:3000/api)
+
+You can use Swagger to view all endpoints and test them directly in the browser.
