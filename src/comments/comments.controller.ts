@@ -37,6 +37,6 @@ export class CommentsController {
     @ApiResponse({ status: 403, description: 'Forbidden. You are not the author.' })
     @ApiResponse({ status: 404, description: 'Comment not found.' })
     remove(@Param('id') id: string, @Request() req: any) {
-        return this.commentsService.remove(+id, req.user.userId);
+        return this.commentsService.remove(+id, req.user.userId, req.user.role);
     }
 }

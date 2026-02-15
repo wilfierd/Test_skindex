@@ -43,7 +43,7 @@ export class PostsController {
     @ApiResponse({ status: 403, description: 'Forbidden. You are not the author.' })
     @ApiResponse({ status: 404, description: 'Post not found.' })
     update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto, @Request() req: any) {
-        return this.postsService.update(+id, updatePostDto, req.user.userId);
+        return this.postsService.update(+id, updatePostDto, req.user.userId, req.user.role);
     }
 
     @Delete(':id')
@@ -55,6 +55,6 @@ export class PostsController {
     @ApiResponse({ status: 403, description: 'Forbidden. You are not the author.' })
     @ApiResponse({ status: 404, description: 'Post not found.' })
     remove(@Param('id') id: string, @Request() req: any) {
-        return this.postsService.remove(+id, req.user.userId);
+        return this.postsService.remove(+id, req.user.userId, req.user.role);
     }
 }

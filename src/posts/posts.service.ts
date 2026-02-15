@@ -33,10 +33,10 @@ export class PostsService {
         return post;
     }
 
-    async update(id: number, updatePostDto: UpdatePostDto, userId: number) {
+    async update(id: number, updatePostDto: UpdatePostDto, userId: number, role: string) {
         const post = await this.findOne(id);
 
-        if (post.authorId !== userId) {
+        if (role !== 'ADMIN' && post.authorId !== userId) {
             throw new ForbiddenException('You are not allowed to edit this post');
         }
 
@@ -46,10 +46,10 @@ export class PostsService {
         });
     }
 
-    async remove(id: number, userId: number) {
+    async remove(id: number, userId: number, role: string) {
         const post = await this.findOne(id);
 
-        if (post.authorId !== userId) {
+        if (role !== 'ADMIN' && post.authorId !== userId) {
             throw new ForbiddenException('You are not allowed to delete this post');
         }
 
